@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('pages.member.home');
+    })->name('home');
+
+    Route::get('/query-list', function () {
+        return view('pages.member.query-list');
+    })->name('query-list');
 });
+
+require __DIR__ . '/auth.php';
