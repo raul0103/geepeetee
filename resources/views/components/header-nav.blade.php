@@ -4,13 +4,20 @@
             <a href="{{ route('home') }}" class="{{ activeLink('/') }}">Главная</a>
         </li>
         <li>
-            <a href="{{ route('query-list') }}" class="{{ activeLink('query-list') }}">Список запросов</a>
+            Парсер
+            <ul>
+                <li><a href="{{ route('parser.import') }}" class="{{ activeLink('parser/import') }}">Импорт</a></li>
+                <li><a href="{{ route('parser.status') }}" class="{{ activeLink('parser/status') }}">Статус</a></li>
+                <li><a href="{{ route('parser.results') }}" class="{{ activeLink('parser/results') }}">Результаты</a></li>
+            </ul>
         </li>
         <li>
             Настройки
             <ul>
-                <li><a href="{{ route('settings.gpt-api-keys') }}" class="{{ activeLink('admin/settings') }}">Api
-                        ключи</a></li>
+                <li>
+                    <a href="{{ route('settings.gpt-api-keys') }}" class="{{ activeLink('admin/settings') }}">Api
+                        ключи</a>
+                </li>
                 @admin
                     <li>
                         <a href="{{ route('settings.generate-register-url') }}"

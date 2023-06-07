@@ -1,20 +1,29 @@
 <?php
 
 use App\Http\Controllers\Admin\GenerateRegisterUrl;
+use App\Http\Controllers\Parser\ParserImportController;
+use App\Http\Controllers\Parser\ParserStatusController;
+use App\Http\Controllers\Parser\ParserResultController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\QueryListController;
 use App\Http\Controllers\Settings\GptApiKeyController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', HomeController::class)->name('home');
-    Route::get('/query-list', QueryListController::class)->name('query-list');
 
     /** Работа с ключами */
     Route::prefix('/settings/gpt-api-keys')->group(function () {
         Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
         Route::put('/', [GptApiKeyController::class, 'update']);
         Route::post('/', [GptApiKeyController::class, 'create']);
+    });
+
+    /** Работа с парсером */
+    Route::prefix('parser')->group(function () {
+        Route::get('import', [ParserImportController::class, 'index'])->name('parser.import');
+        Route::post('import', [ParserImportController::class, 'import']);
+        Route::get('status', [ParserStatusController::class, 'index'])->name('parser.status');
+        Route::get('results', [ParserResultController::class, 'index'])->name('parser.results');
     });
 });
 

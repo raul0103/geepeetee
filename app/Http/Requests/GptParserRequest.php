@@ -4,20 +4,19 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GptApiKeyRequest extends FormRequest
+class GptParserRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => ['max:255'],
-            'key' => ['required', 'string'],
+            'file' => ['required'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'key.required' => 'Не заполнен ключ',
+            'file.required' => 'Файл не выбран',
         ];
     }
 }
