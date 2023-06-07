@@ -1,26 +1,31 @@
 <?php
 
+use App\Http\Controllers\Admin\GenerateRegisterUrl;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\QueryListController;
+use App\Http\Controllers\Settings\GptApiKeyController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('pages.member.home');
-    })->name('home');
+    Route::get('/', HomeController::class)->name('home');
+    Route::get('/query-list', QueryListController::class)->name('query-list');
 
-    Route::get('/query-list', function () {
-        return view('pages.member.query-list');
-    })->name('query-list');
+    /** Работа с ключами */
+    Route::prefix('/settings/gpt-api-keys')->group(function () {
+        Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
+        Route::post('/', [GptApiKeyController::class, 'create'])->name('settings.gpt-api-keys.create');
+        Route::put('/', [GptApiKeyController::class, 'update'])->name('settings.gpt-api-keys.update');
+    });
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    /** Генерация URL для регистрации */
+    Route::prefix('/settings/generate-register-url')->group(function () {
+        Route::get('/', [GenerateRegisterUrl::class, 'index'])->name('settings.generate-register-url');
+        Route::get('admin', [GenerateRegisterUrl::class, 'admin'])->name('settings.generate-register-url.admin');
+        Route::get('member', [GenerateRegisterUrl::class, 'member'])->name('settings.generate-register-url.member');
+    });
 });
 
 require __DIR__ . '/auth.php';

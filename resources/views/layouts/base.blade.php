@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    @include('components.member.header-nav')
+    @include('components.header-nav')
     @yield('body')
 </body>
 

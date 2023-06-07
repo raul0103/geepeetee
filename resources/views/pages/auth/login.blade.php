@@ -7,6 +7,10 @@
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">Введите свои учетные данные</p>
 
+                    @if ($errors->any())
+                        {!! implode('', $errors->all('<div>:message</div>')) !!}
+                    @endif
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
