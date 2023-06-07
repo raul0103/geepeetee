@@ -21,8 +21,7 @@ class GptApiKeyController extends Controller
     {
         /** Если новый ключ активный - снимаем статус активного у прошлого ключа */
         if ($request->active) {
-            $active_api_key = Auth::user()->getActiveGptApiKey();
-            $active_api_key?->update(['active' => 0]);
+            GptApiKey::removeActive();
             $request->active = true;
         } else {
             $request->active = false;
@@ -38,7 +37,15 @@ class GptApiKeyController extends Controller
         return redirect()->route('settings.gpt-api-keys');
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        GptApiKey::removeActive();
+
+        $new_active_api_key = GptApiKey::find($request->active_api_id);
+        $new_active_api_key->update([
+            'active' => 1
+        ]);
+
+        return redirect()->route('settings.gpt-api-keys');
     }
 }

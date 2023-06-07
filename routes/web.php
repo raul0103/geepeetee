@@ -13,8 +13,8 @@ Route::middleware('auth')->group(function () {
     /** Работа с ключами */
     Route::prefix('/settings/gpt-api-keys')->group(function () {
         Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
-        Route::post('/', [GptApiKeyController::class, 'create'])->name('settings.gpt-api-keys.create');
-        Route::put('/', [GptApiKeyController::class, 'update'])->name('settings.gpt-api-keys.update');
+        Route::put('/', [GptApiKeyController::class, 'update']);
+        Route::post('/', [GptApiKeyController::class, 'create']);
     });
 });
 
