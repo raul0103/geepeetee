@@ -53,7 +53,10 @@ class GptParser implements ShouldQueue
 
             $this->gbp_parser_status_by_user->updateStatus('success');
         } catch (Throwable $e) {
-            $this->gbp_parser_status_by_user->updateStatus('error');
+            $this->gbp_parser_status_by_user->update([
+                'status' => 'error',
+                'message' => $response
+            ]);
             throw $e;
         }
     }

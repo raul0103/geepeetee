@@ -1,0 +1,63 @@
+.navbar
+    background: #fbfaff
+    border-bottom: 1px solid #e9e9ef
+    border-top: 1px solid #e9e9ef
+    // padding: 10px 0
+
+    &-row
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+    &-nav
+        display: flex
+        gap: 20px
+
+        .nav-item
+            color: #545a6d
+            a
+                padding: 10px
+                display: block
+            &.dropdown
+                cursor: default
+                position: relative
+                .dropdown-menu
+                    display: none
+                    position: absolute
+                    padding: 0
+                    color: #495057
+                    background-color: #fff
+                    border: 1px solid #e9e9ef
+                    border-radius: 0.25rem
+                    box-shadow: 0 0.25rem 0.75rem rgba(18,38,63,.08)
+                    top: 41px
+                    width: max-content
+
+                    li.nav-item
+                        padding: 3px
+                    a:hover
+                        background-color: #f8f9fa
+                        border-radius: 0.25rem
+                &:hover
+                    &>a
+                        color: #5156be
+                    &:after
+                        color: #5156be
+                    .dropdown-menu
+                        display: block
+
+                &:after
+                    position: absolute
+                    border-color: initial
+                    border-style: solid
+                    border-width: 0 0 1px 1px
+                    content: ""
+                    height: 0.4em
+                    display: inline-block
+                    right: -10px
+                    top: 50%
+                    margin-left: 10px
+                    transform: rotate(-45deg) translateY(-50%)
+                    transform-origin: top
+                    transition: all .3s ease-out
+                    width: 0.4em

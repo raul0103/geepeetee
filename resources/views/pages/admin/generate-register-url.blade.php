@@ -1,18 +1,29 @@
 @extends('layouts.base')
-
+@section('pagetitle', 'Генерация URL для регистрации')
 @section('body')
-    <ul>
+    <ul class="list-style-inside">
         <li>
-            <a href="{{ route('settings.generate-register-url.admin') }}">Ссылка для пользователя с правами
+            <a class="link" href="{{ route('settings.generate-register-url.admin') }}">Ссылка для пользователя с правами
                 "Администратор"</a>
         </li>
         <li>
-            <a href="{{ route('settings.generate-register-url.member') }}">Ссылка для обычного пользователя </a>
+            <a class="link" href="{{ route('settings.generate-register-url.member') }}">Ссылка для обычного пользователя
+            </a>
         </li>
     </ul>
 
     @if ($register_url)
-        <h2>Ссылка для регистрации доступна до {{ $access_time }}</h2>
-        <div>{{ $register_url }}</div>
+        <div class="section-group">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        Ссылка для регистрации доступна до {{ $access_time }}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{ $register_url }}
+                </div>
+            </div>
+        </div>
     @endif
 @endsection

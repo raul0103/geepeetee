@@ -6,8 +6,16 @@
 </head>
 
 <body>
+
     @include('components.header-nav')
-    @yield('body')
+    <div class="container">
+        <section class="pagetitle">
+            <h1>@yield('pagetitle')</h1>
+        </section>
+        <section class="main">
+            @yield('body')
+        </section>
+    </div>
 </body>
 
 </html>

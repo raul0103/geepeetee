@@ -1,34 +1,58 @@
 <header>
-    <ul>
-        <li>
-            <a href="{{ route('home') }}" class="{{ activeLink('/') }}">Главная</a>
-        </li>
-        <li>
-            Парсер
-            <ul>
-                <li><a href="{{ route('parser.import') }}" class="{{ activeLink('parser/import') }}">Импорт</a></li>
-                <li><a href="{{ route('parser.status') }}" class="{{ activeLink('parser/status') }}">Статус</a></li>
-                <li><a href="{{ route('parser.results') }}" class="{{ activeLink('parser/results') }}">Результаты</a></li>
-            </ul>
-        </li>
-        <li>
-            Настройки
-            <ul>
-                <li>
-                    <a href="{{ route('settings.gpt-api-keys') }}" class="{{ activeLink('admin/settings') }}">Api
-                        ключи</a>
-                </li>
-                @admin
-                    <li>
-                        <a href="{{ route('settings.generate-register-url') }}"
-                            class="{{ activeLink('admin/settings') }}">Ссылка на регистрацию</a>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-row">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="link"href="{{ route('home') }}" class="{{ activeLink('/') }}">Главная</a>
                     </li>
-                @endadmin
-            </ul>
-        </li>
+                    <li class="nav-item dropdown">
+                        <a>Парсер</a>
 
-        <li>
-            <a href="{{ route('logout') }}">Выйти</a>
-        </li>
-    </ul>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="link"href="{{ route('parser.import') }}"
+                                    class="{{ activeLink('parser/import') }}">Импорт</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="link"href="{{ route('parser.status') }}"
+                                    class="{{ activeLink('parser/status') }}">Статус</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="link"href="{{ route('parser.results') }}"
+                                    class="{{ activeLink('parser/results') }}">Результаты</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a>Настройки</a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="link"href="{{ route('settings.gpt-api-keys') }}"
+                                    class="{{ activeLink('admin/settings') }}">Api
+                                    ключи</a>
+                            </li>
+                            @admin
+                                <li class="nav-item">
+                                    <a class="link"href="{{ route('settings.generate-register-url') }}"
+                                        class="{{ activeLink('admin/settings') }}">Ссылка на регистрацию</a>
+                                </li>
+                            @endadmin
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a>{{ Auth::user()->name }}</a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="link"href="{{ route('logout') }}">Выйти</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>

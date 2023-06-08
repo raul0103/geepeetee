@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('request');
             $table->string('status');
+            $table->text('message')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

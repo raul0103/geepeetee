@@ -1,8 +1,8 @@
 @extends('layouts.base')
-
+@section('pagetitle', 'Результаты запросов')
 @section('body')
     @if (count($results))
-        <table>
+        <table class="table">
             <thead>
                 <tr>
                     <th>Запрос</th>

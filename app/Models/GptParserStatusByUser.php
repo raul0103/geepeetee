@@ -9,7 +9,7 @@ class GptParserStatusByUser extends Model
 {
     use HasFactory;
 
-    public $fillable = ['request', 'status', 'user_id'];
+    public $fillable = ['request', 'status', 'message', 'user_id'];
 
     public function user()
     {

@@ -6,7 +6,11 @@
 </head>
 
 <body>
-    @yield('body')
+    <div class="container">
+        <section class="main">
+            @yield('body')
+        </section>
+    </div>
 </body>
 
 </html>
