@@ -48,4 +48,10 @@ class GptApiKeyController extends Controller
 
         return redirect()->route('settings.gpt-api-keys');
     }
+
+    public function delete(GptApiKey $gpt_api_key)
+    {
+        $gpt_api_key->delete();
+        return true;
+    }
 }

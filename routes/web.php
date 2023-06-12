@@ -16,6 +16,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
         Route::put('/', [GptApiKeyController::class, 'update']);
         Route::post('/', [GptApiKeyController::class, 'create']);
+        Route::delete('/{gpt_api_key}', [GptApiKeyController::class, 'delete']);
     });
 
     /** Работа с парсером */

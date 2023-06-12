@@ -3,6 +3,7 @@
 
 <head>
     @vite(['resources/sass/app.sass'])
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -16,6 +17,9 @@
             @yield('body')
         </section>
     </div>
+
+    @vite(['resources/js/app.js'])
+    @yield('scripts')
 </body>
 
 </html>

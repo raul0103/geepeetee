@@ -13,29 +13,35 @@
                     @csrf
                     @method('PUT')
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Название</th>
-                                <th>Ключ</th>
-                                <th>Дата создания</th>
-                                <th>Активный</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($api_keys as $index => $api_key)
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{ $api_key->name }}</td>
-                                    <td>{{ $api_key->key }}</td>
-                                    <td>{{ $api_key->created_at }}</td>
-                                    <td>
-                                        <input id="active_{{ $index }}" type="radio" name="active_api_id"
-                                            value="{{ $api_key->id }}" {{ $api_key->active ? 'checked' : '' }}>
-                                    </td>
+                                    <th>Название</th>
+                                    <th>Ключ</th>
+                                    <th>Дата создания</th>
+                                    <th>Активный</th>
+                                    <th>Действия</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($api_keys as $index => $api_key)
+                                    <tr data-api-key-id="{{ $api_key->id }}">
+                                        <td>{{ $api_key->name }}</td>
+                                        <td>{{ $api_key->key }}</td>
+                                        <td>{{ $api_key->created_at }}</td>
+                                        <td>
+                                            <input id="active_{{ $index }}" type="radio" name="active_api_id"
+                                                value="{{ $api_key->id }}" {{ $api_key->active ? 'checked' : '' }}>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-danger" data-delete-api-key="{{ $api_key->id }}">Удалить</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <button class="btn btn-primary mt-1" type="submit">Сохранить</button>
                 </form>
@@ -81,4 +87,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    @vite(['resources/js/modules/gpt-api-key.js'])
 @endsection
