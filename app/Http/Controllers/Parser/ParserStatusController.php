@@ -12,4 +12,10 @@ class ParserStatusController extends Controller
         $status_data = Auth::user()->getParserStatusDescId;
         return view('pages.parser.status', ['status_data' => $status_data]);
     }
+
+    public function deleteAll()
+    {
+        Auth::user()->getParserStatusDescId()->delete();
+        return true;
+    }
 }

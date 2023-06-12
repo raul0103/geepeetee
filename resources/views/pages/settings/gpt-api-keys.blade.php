@@ -93,5 +93,5 @@
 @endsection
 
 @section('scripts')
-    @vite(['resources/js/modules/gpt-api-key.js'])
+    @vite(['resources/js/pages/settings.js'])
 @endsection

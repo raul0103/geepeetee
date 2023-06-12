@@ -27,7 +27,14 @@
                 </tbody>
             </table>
         </div>
+        <div class="controls-container">
+            <button class="btn btn-danger" data-status-delete-all>Очистить</button>
+        </div>
     @else
         Нет запросов
     @endif
+@endsection
+
+@section('scripts')
+    @vite('resources/js/pages/parser.js')
 @endsection

@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
         Route::get('import', [ParserImportController::class, 'index'])->name('parser.import');
         Route::post('import', [ParserImportController::class, 'import']);
         Route::get('status', [ParserStatusController::class, 'index'])->name('parser.status');
+        Route::delete('status', [ParserStatusController::class, 'deleteAll']);
         Route::get('results', [ParserResultController::class, 'index'])->name('parser.results');
     });
 });
