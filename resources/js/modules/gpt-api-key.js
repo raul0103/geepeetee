@@ -5,6 +5,8 @@
  * [data-api-key-id] - DOM элемент для удаления со страницы (в данном случае присвоен к tr)
  */
 document.querySelector('[data-delete-api-key]')?.addEventListener('click', async e => {
+    e.preventDefault()
+
     const api_key_id = e.target.dataset.deleteApiKey
 
     if (confirm('Подтвердите удаление')) {
@@ -19,7 +21,7 @@ document.querySelector('[data-delete-api-key]')?.addEventListener('click', async
 
             const result = await response.json();
             if (result) {
-                document.querySelector('[data-api-key-id]').remove()
+                location.reload()
             }
         } catch (error) {
             console.error(error);

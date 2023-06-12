@@ -8,3 +8,14 @@ if (!function_exists('activeLink')) {
         }
     }
 }
+
+if (!function_exists('getBadgeColor')) {
+    function getBadgeColor($status)
+    {
+        if ($status == 'success') {
+            return 'badge-success';
+        } elseif ($status == 'error') {
+            return 'badge-danger';
+        }
+    }
+}
