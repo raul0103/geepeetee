@@ -16,12 +16,15 @@ document.querySelectorAll('[data-table-order-row]').forEach(elem => {
     elem.classList.add(storage[order_row])
 
     elem.addEventListener('click', () => {
-
-
-        if (storage[order_row] == 'asc')
+        // Сначала идет положение asc затем desc. Если уже используется desc то просто сбросить сортировку 
+        if (storage[order_row] == 'desc') {
+            location.href = location.origin + location.pathname
+            return
+        } else if (storage[order_row] == 'asc') {
             storage[order_row] = 'desc'
-        else
+        } else {
             storage[order_row] = 'asc'
+        }
 
         localStorage.order_table = JSON.stringify(storage)
         location.href = `${location.origin + location.pathname}?order=${order_row}&sort=${storage[order_row]}`
