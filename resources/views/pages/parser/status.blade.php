@@ -7,7 +7,9 @@
                 <thead>
                     <tr>
                         <th>Запрос</th>
-                        <th>Статус</th>
+                        <th data-table-order-row="status" class="table-order">Статус
+                            <i class="order-arrows"></i>
+                        </th>
                         <th>Сообщение</th>
                         <th>Дата</th>
                     </tr>
