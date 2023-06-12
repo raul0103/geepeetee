@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gpt_parser_status_by_users', function (Blueprint $table) {
             $table->id();
-            $table->string('request');
+            $table->text('request');
             $table->string('status');
             $table->text('message')->nullable();
             $table->unsignedBigInteger('user_id');
