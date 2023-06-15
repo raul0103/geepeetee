@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
         Route::get('status', [ParserStatusController::class, 'index'])->name('parser.status');
         Route::delete('status', [ParserStatusController::class, 'deleteAll']);
         Route::get('results', [ParserResultController::class, 'index'])->name('parser.results');
+        Route::get('results-excel', [ParserResultController::class, 'downloadExcel'])->name('parser.results.excel');
     });
 });
 

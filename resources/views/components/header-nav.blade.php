@@ -6,23 +6,9 @@
                     <li class="nav-item">
                         <a class="link"href="{{ route('home') }}" class="{{ activeLink('/') }}">Главная</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a>Парсер</a>
-
-                        <ul class="dropdown-menu">
-                            <li class="nav-item">
-                                <a class="link"href="{{ route('parser.import') }}"
-                                    class="{{ activeLink('parser/import') }}">Импорт</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="link"href="{{ route('parser.status') }}"
-                                    class="{{ activeLink('parser/status') }}">Статус</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="link"href="{{ route('parser.results') }}"
-                                    class="{{ activeLink('parser/results') }}">Результаты</a>
-                            </li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="link"href="{{ route('parser.import') }}"
+                            class="{{ activeLink('parser/import') }}">Импорт</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a>Настройки</a>

@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\GptParserResult;
-use App\Models\GptParserStatusByUser;
+use App\Models\GptParserStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,23 +17,25 @@ class GptParser implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $user;
     public $request;
     public $status_id;
+    public $import_id;
+    public $active_api_key;
 
-    public function __construct($user, $request, $status_id)
+    public function __construct($request, $status_id, $import_id, $active_api_key)
     {
-        $this->user = $user;
         $this->request = $request;
         $this->status_id = $status_id;
+        $this->import_id = $import_id;
+        $this->active_api_key = $active_api_key;
     }
 
     public function handle(): void
     {
-        $gbp_parser_status_by_user = GptParserStatusByUser::find($this->status_id);
+        $gbp_parser_status = GptParserStatus::find($this->status_id);
 
         try {
-            $gbp_parser_status_by_user?->updateStatus('working');
+            $gbp_parser_status?->updateStatus('working');
 
             $response = $this->getResponse();
             $response = $this->checkResponse($response);
@@ -42,12 +44,12 @@ class GptParser implements ShouldQueue
             GptParserResult::create([
                 'request' => $this->request,
                 'response' => $response['choices'][0]['message']['content'],
-                'user_id' => $this->user['user_id']
+                'import_id' => $this->import_id
             ]);
 
-            $gbp_parser_status_by_user?->updateStatus('success');
+            $gbp_parser_status?->updateStatus('success');
         } catch (Throwable $e) {
-            $gbp_parser_status_by_user?->update([
+            $gbp_parser_status?->update([
                 'status' => 'error',
                 'message' => $response
             ]);
@@ -59,7 +61,7 @@ class GptParser implements ShouldQueue
     {
         $response = Http::timeout(0)->withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $this->user['active_api_key']
+            'Authorization' => 'Bearer ' . $this->active_api_key
         ])->post('https://api.openai.com/v1/chat/completions', [
             'model' => 'gpt-3.5-turbo',
             'messages' =>  [["role" => "user", "content" => $this->request]],

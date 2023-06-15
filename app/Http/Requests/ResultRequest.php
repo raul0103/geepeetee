@@ -4,20 +4,19 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GptParserRequest extends FormRequest
+class ResultRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'import_name' => [],
-            'file' => ['required'],
+            'import_id' => ['required', 'integer'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'file.required' => 'Файл не выбран',
+            'import_id.required' => 'Не введен ID импорта',
         ];
     }
 }

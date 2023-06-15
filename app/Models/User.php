@@ -66,21 +66,4 @@ class User extends Authenticatable
     {
         return $this->gptApiKeys()->where('active', 1)->first();
     }
-
-    public function parserStatus($request = null)
-    {
-        $status_data = $this->hasMany(GptParserStatusByUser::class);
-
-        if (isset($request->order))
-            $status_data->orderBy($request->order, $request->sort);
-        else
-            $status_data->orderBy('id', 'desc');
-
-        return $status_data;
-    }
-
-    public function getParserResultDescId()
-    {
-        return $this->hasMany(GptParserResult::class)->orderBy('id', 'desc');
-    }
 }

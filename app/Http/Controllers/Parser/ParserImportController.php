@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Parser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GptParserRequest;
 use App\Imports\GptParserImport;
+use App\Models\Import;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -13,15 +14,20 @@ class ParserImportController extends Controller
     public function index()
     {
         return $this->checkActiveApiKeyByUser(function () {
-            return view('pages.parser.import');
+            return view('pages.parser.import', ['imports' => Import::byUser()]);
         });
     }
 
     public function import(GptParserRequest $request)
     {
-        return $this->checkActiveApiKeyByUser(function ($active_gpt_key) use ($request) {
-            Excel::import(new GptParserImport($active_gpt_key), $request->file);
-            return view('pages.parser.import', ['message' => 'Парсер запущен']);
+        $new_import = Import::create([
+            'name' => $request->import_name,
+            'user_id' => Auth::user()->id
+        ]);
+
+        return $this->checkActiveApiKeyByUser(function ($active_gpt_key) use ($request, $new_import) {
+            Excel::import(new GptParserImport($active_gpt_key, $new_import->id), $request->file);
+            return view('pages.parser.import', ['message' => 'Парсер запущен', 'imports' => Import::byUser()]);
         });
     }
 

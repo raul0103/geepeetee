@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('pagetitle', 'Результаты запросов')
 @section('body')
-    @if (count($results))
+    @if ($results && $results->count())
         <div class="table-container">
             <table class="table">
                 <thead>
@@ -24,5 +24,7 @@
                 </tbody>
             </table>
         </div>
+    @else
+        Нет результатов
     @endif
 @endsection

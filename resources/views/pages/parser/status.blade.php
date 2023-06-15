@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('pagetitle', 'Статус запросов')
 @section('body')
-    @if (count($status_data))
+    @if ($statuses && $statuses->count())
         <div class="table-container">
             <table class="table">
                 <thead>
@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($status_data as $item)
+                    @foreach ($statuses as $item)
                         <tr>
                             <td>{{ $item->request }}</td>
                             <td>

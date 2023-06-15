@@ -9,10 +9,10 @@ class GptParserResult extends Model
 {
     use HasFactory;
 
-    public $fillable = ['request', 'response', 'modified', 'user_id'];
+    public $fillable = ['request', 'response', 'modified', 'import_id'];
 
-    public function user()
+    public function import()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Import::class);
     }
 }

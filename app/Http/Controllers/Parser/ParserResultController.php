@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers\Parser;
 
+use App\Exports\GptParserResultsExport;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ResultRequest;
+use App\Models\Import;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ParserResultController extends Controller
 {
-    public function index()
+    public function index(ResultRequest $request)
     {
-        $results = Auth::user()->getParserResultDescId;
+        $results = Import::findOrFail($request->import_id)->results;
         return view('pages.parser.results', ['results' => $results]);
+    }
+
+
+    public function downloadExcel(ResultRequest $request)
+    {
+        return Excel::download(new GptParserResultsExport($request->import_id), 'results.xlsx');
     }
 }

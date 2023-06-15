@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gpt_parser_status_by_users', function (Blueprint $table) {
+        Schema::create('imports', function (Blueprint $table) {
             $table->id();
-            $table->text('request');
-            $table->string('status');
-            $table->text('message')->nullable();
+            $table->string('name')->default('Импорт');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gpt_parser_status_by_users');
+        Schema::dropIfExists('imports');
     }
 };

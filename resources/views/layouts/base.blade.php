@@ -18,6 +18,10 @@
         </section>
     </div>
 
+    <footer>
+        Copyright © 2023
+    </footer>
+
     @vite(['resources/js/app.js'])
     @yield('scripts')
 </body>
