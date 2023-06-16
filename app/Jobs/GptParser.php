@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\GptParserResult;
 use App\Models\GptParserStatus;
+use App\Models\Import;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,6 +33,9 @@ class GptParser implements ShouldQueue
 
     public function handle(): void
     {
+        if ($this->checkImport() == false)
+            return;
+
         $gbp_parser_status = GptParserStatus::find($this->status_id);
 
         try {
@@ -97,5 +101,17 @@ class GptParser implements ShouldQueue
             $attempts++;
         }
         return $response;
+    }
+
+    /**
+     * Проверит если импорт был удален а задачи по нему еще выполняются то не выполнять их
+     */
+    public function checkImport()
+    {
+        $import = Import::find($this->import_id);
+        if ($import)
+            return true;
+        else
+            return false;
     }
 }

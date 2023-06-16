@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('pagetitle', 'Импорт запросов')
 @section('body')
-    <div class="mt-1">{{ isset($message) ? $message : '' }}</div>
+    <div class="mt-1"><b>{{ isset($message) ? $message : '' }}</b></div>
 
     @if (!isset($access_closed))
         <section>
@@ -67,8 +67,22 @@
                                             <a title="Скачать результаты Excel"
                                                 href="{{ route('parser.results.excel', ['import_id' => $import->id]) }}"
                                                 class="icon-link">
-                                                <img src="{{ url('/assets/img/icons/excel.svg') }}" alt="">
+                                                <img src="{{ url('/assets/img/icons/excel.svg') }}">
                                             </a>
+
+                                            <form
+                                                action="{{ route('parser.import.delete', ['import_id' => $import->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button data-confirmation
+                                                    data-confirmation-text="Подтвердите удаление импорта и всех его результатов"
+                                                    title="Удалить. Удалит и импорт и результаты импорта"
+                                                    class="btn icon-link" style="max-width: 25px;padding: 0;">
+                                                    <img src="{{ url('/assets/img/icons/delete.png') }}">
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GptParserRequest;
 use App\Imports\GptParserImport;
 use App\Models\Import;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ParserImportController extends Controller
@@ -29,6 +31,13 @@ class ParserImportController extends Controller
             Excel::import(new GptParserImport($active_gpt_key, $new_import->id), $request->file);
             return view('pages.parser.import', ['message' => 'Парсер запущен', 'imports' => Import::byUser()]);
         });
+    }
+
+    public function delete(Request $request)
+    {
+        $import  = Import::findOrFail($request->import_id);
+        $import->delete();
+        return view('pages.parser.import', ['message' => 'Импорт "' . $import->name . '" удален', 'imports' => Import::byUser()]);
     }
 
     protected function checkActiveApiKeyByUser($callback)

@@ -23,8 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('parser')->group(function () {
         Route::get('import', [ParserImportController::class, 'index'])->name('parser.import');
         Route::post('import', [ParserImportController::class, 'import']);
+        Route::delete('import', [ParserImportController::class, 'delete'])->name('parser.import.delete');
         Route::get('status', [ParserStatusController::class, 'index'])->name('parser.status');
-        Route::delete('status', [ParserStatusController::class, 'deleteAll']);
         Route::get('results', [ParserResultController::class, 'index'])->name('parser.results');
         Route::get('results-excel', [ParserResultController::class, 'downloadExcel'])->name('parser.results.excel');
     });

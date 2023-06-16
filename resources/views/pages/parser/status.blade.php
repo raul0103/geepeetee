@@ -36,7 +36,3 @@
         Нет запросов
     @endif
 @endsection
-
-@section('scripts')
-    @vite('resources/js/pages/parser.js')
-@endsection

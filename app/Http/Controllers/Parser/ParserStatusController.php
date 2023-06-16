@@ -16,10 +16,4 @@ class ParserStatusController extends Controller
         $statuses = Import::findOrFail($request->import_id)->statuses;
         return view('pages.parser.status', ['statuses' => $statuses]);
     }
-
-    public function deleteAll()
-    {
-        // Auth::user()->parserStatus()->delete();
-        return true;
-    }
 }
