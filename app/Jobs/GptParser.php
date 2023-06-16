@@ -72,21 +72,28 @@ class GptParser implements ShouldQueue
     }
 
     /** 
-     * Проверям если в ответе нет поля choices - перезапускаем пока это поле не появится. Либо пока не превысим лимит попыток attempts > 10
+     * Проверка на то что ответ полный и закончен полность - если finish_reason == 'stop'
+     * Либо делаем перезапрос пока не превысим лимит попыток attempts > 10 или будет finish_reason == 'stop'
      */
     public function checkResponse($response)
     {
         $attempts = 1; // Количество  запусков
-        $isset_choices = isset($response['choices']);
-        while (!$isset_choices) {
+
+        if (isset($response['choices'][0]['finish_reason']) && $response['choices'][0]['finish_reason'] == 'stop') {
+            $finish_reason = true;
+        } else {
+            $finish_reason = false;
+        }
+
+        while (!$finish_reason) {
             sleep(20);
 
             $response = $this->getResponse();
-            $isset_choices = isset($response['choices']);
 
-            if ($attempts > 10) {
-                $isset_choices = true;
+            if ($attempts > 10 || (isset($response['choices'][0]['finish_reason']) && $response['choices'][0]['finish_reason'] == 'stop')) {
+                $finish_reason = true;
             }
+
             $attempts++;
         }
         return $response;
