@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('request');
             $table->text('response');
             $table->text('modified')->nullable();
+            $table->unsignedBigInteger('position'); // Позиция в таблице EXCEL для дальнейшего вывода по заданному порядку
             $table->unsignedBigInteger('import_id');
             $table->foreign('import_id')->references('id')->on('imports')->onDelete('cascade');
             $table->timestamps();

@@ -21,6 +21,7 @@ class GptParserImport implements ToCollection
 
     public function collection(Collection $rows)
     {
+        $position = 0;
         foreach ($rows as $row) {
             $request = $row[0];
 
@@ -39,6 +40,7 @@ class GptParserImport implements ToCollection
                 $status->id,
                 $this->import_id,
                 $this->user_active_api_key,
+                $position++
             );
         }
     }

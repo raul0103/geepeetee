@@ -22,13 +22,15 @@ class GptParser implements ShouldQueue
     public $status_id;
     public $import_id;
     public $active_api_key;
+    public $position;
 
-    public function __construct($request, $status_id, $import_id, $active_api_key)
+    public function __construct($request, $status_id, $import_id, $active_api_key, $position)
     {
         $this->request = $request;
         $this->status_id = $status_id;
         $this->import_id = $import_id;
         $this->active_api_key = $active_api_key;
+        $this->position = $position;
     }
 
     public function handle(): void
@@ -36,10 +38,10 @@ class GptParser implements ShouldQueue
         if ($this->checkImport() == false)
             return;
 
-        $gbp_parser_status = GptParserStatus::find($this->status_id);
+        $gpt_parser_status = GptParserStatus::find($this->status_id);
 
         try {
-            $gbp_parser_status?->updateStatus('working');
+            $gpt_parser_status?->updateStatus('working');
 
             $response = $this->getResponse();
             $response = $this->checkResponse($response);
@@ -48,12 +50,13 @@ class GptParser implements ShouldQueue
             GptParserResult::create([
                 'request' => $this->request,
                 'response' => $response['choices'][0]['message']['content'],
-                'import_id' => $this->import_id
+                'import_id' => $this->import_id,
+                'position' => $this->position
             ]);
 
-            $gbp_parser_status?->updateStatus('success');
+            $gpt_parser_status?->updateStatus('success');
         } catch (Throwable $e) {
-            $gbp_parser_status?->update([
+            $gpt_parser_status?->update([
                 'status' => 'error',
                 'message' => $response
             ]);

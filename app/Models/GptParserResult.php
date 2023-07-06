@@ -9,7 +9,7 @@ class GptParserResult extends Model
 {
     use HasFactory;
 
-    public $fillable = ['request', 'response', 'modified', 'import_id'];
+    public $fillable = ['request', 'response', 'modified', 'position', 'import_id'];
 
     public function import()
     {
