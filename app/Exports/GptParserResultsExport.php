@@ -17,7 +17,7 @@ class GptParserResultsExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return Import::find($this->import_id)->results()->orderBy('position','desc')->select(['request', 'response'])->get();
+        return Import::find($this->import_id)->results()->orderBy('position','asc')->select(['request', 'response'])->get();
     }
 
     public function headings(): array

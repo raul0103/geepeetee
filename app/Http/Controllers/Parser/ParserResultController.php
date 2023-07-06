@@ -12,7 +12,7 @@ class ParserResultController extends Controller
 {
     public function index(ResultRequest $request)
     {
-        $results = Import::findOrFail($request->import_id)->results()->orderBy('position', 'desc')->get();
+        $results = Import::findOrFail($request->import_id)->results()->orderBy('position', 'asc')->get();
         return view('pages.parser.results', ['results' => $results]);
     }
 
