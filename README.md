@@ -1,5 +1,7 @@
 ## Проект для работы с API GPT
 
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Logo.min.svg/2560px-Logo.min.svg.png)
+
 ### Принцип работы:
 
 -   Администратор выдает временные ссылки для регистрации
