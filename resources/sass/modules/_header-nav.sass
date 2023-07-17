@@ -7,7 +7,7 @@
     background: #fbfaff
     border-bottom: 1px solid #e9e9ef
     border-top: 1px solid #e9e9ef
-    // padding: 10px 0
+    padding: 4px 0
     &-left
         display: flex
         gap: 20px
@@ -22,9 +22,13 @@
 
         .nav-item
             color: #545a6d
-            a
+            a.link
                 padding: 10px
                 display: block
+                &.active
+                    border-radius: 0.25rem
+                    color: #fff
+                    background: #5156be!important
             &.dropdown
                 cursor: default
                 position: relative

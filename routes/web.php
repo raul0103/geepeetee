@@ -6,18 +6,30 @@ use App\Http\Controllers\Parser\ParserStatusController;
 use App\Http\Controllers\Parser\ParserResultController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Settings\GptApiKeyController;
+use App\Http\Controllers\Settings\GptParserUserSettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', HomeController::class)->name('home');
 
-    /** Работа с ключами */
-    Route::prefix('/settings/gpt-api-keys')->group(function () {
-        Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
-        Route::put('/', [GptApiKeyController::class, 'update']);
-        Route::post('/', [GptApiKeyController::class, 'create']);
-        Route::delete('/{gpt_api_key}', [GptApiKeyController::class, 'delete']);
+    Route::prefix('settings')->group(function () {
+        /** Настройки */
+        Route::prefix('common')->group(function () {
+            Route::get('/', [GptParserUserSettingController::class, 'index'])->name('settings.common');
+            Route::put('/', [GptParserUserSettingController::class, 'update']);
+            Route::post('/', [GptParserUserSettingController::class, 'create']);
+            // Route::delete('/', [GptParserUserSettingController::class, 'delete']);
+        });
+
+        /** Работа с ключами */
+        Route::prefix('gpt-api-keys')->group(function () {
+            Route::get('/', [GptApiKeyController::class, 'index'])->name('settings.gpt-api-keys');
+            Route::put('/', [GptApiKeyController::class, 'update']);
+            Route::post('/', [GptApiKeyController::class, 'create']);
+            Route::delete('/{gpt_api_key}', [GptApiKeyController::class, 'delete']);
+        });
     });
+
 
     /** Работа с парсером */
     Route::prefix('parser')->group(function () {

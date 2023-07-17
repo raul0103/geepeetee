@@ -10,24 +10,28 @@
                     </div>
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="link"href="{{ route('home') }}" class="{{ activeLink('/') }}">Главная</a>
+                            <a class="link {{ activeLink('/') }}" href="{{ route('home') }}">Главная</a>
                         </li>
                         <li class="nav-item">
-                            <a class="link"href="{{ route('parser.import') }}"
-                                class="{{ activeLink('parser/import') }}">Импорт</a>
+                            <a class="link {{ activeLink('parser/import') }}"
+                                href="{{ route('parser.import') }}">Импорт</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a>Настройки</a>
+                            <a class="link">Настройки</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item">
-                                    <a class="link"href="{{ route('settings.gpt-api-keys') }}"
-                                        class="{{ activeLink('admin/settings') }}">Api
+                                    <a class="link {{ activeLink('settings/gpt-api-keys') }}"
+                                        href="{{ route('settings.gpt-api-keys') }}">Api
                                         ключи</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="link {{ activeLink('settings/common') }}"
+                                        href="{{ route('settings.common') }}">Общие</a>
                                 </li>
                                 @admin
                                     <li class="nav-item">
-                                        <a class="link"href="{{ route('settings.generate-register-url') }}"
-                                            class="{{ activeLink('admin/settings') }}">Ссылка на регистрацию</a>
+                                        <a class="link {{ activeLink('admin/settings') }}"
+                                            href="{{ route('settings.generate-register-url') }}">Ссылка на регистрацию</a>
                                     </li>
                                 @endadmin
                             </ul>
@@ -36,7 +40,7 @@
                 </div>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a>{{ Auth::user()->name }}</a>
+                        <a class="link">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="link"href="{{ route('logout') }}">Выйти</a>

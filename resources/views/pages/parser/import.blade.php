@@ -1,7 +1,10 @@
 @extends('layouts.base')
 @section('pagetitle', 'Импорт запросов')
 @section('body')
-    <div class="mt-1"><b>{{ isset($message) ? $message : '' }}</b></div>
+
+    @if (Request::get('message'))
+        <div class="mt-1"><b>{{ Request::get('message') }}</b></div>
+    @endif
 
     @if (!isset($access_closed))
         <section>

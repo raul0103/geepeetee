@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\GptParserDefaultSetting;
 use App\Models\GptParserResult;
 use App\Models\GptParserStatus;
 use App\Models\Import;
@@ -18,6 +19,13 @@ class GptParser implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    // Параметры парсера
+    protected $parser_params = [
+        'ATTEMPS_MAX' => 1,  // Максимальное кол-во попыток
+        'ATTEMPS_SLEEP_TIME' => 1, // Таймаут между ошибками сек.
+    ];
+    protected $settings; // Параметры для запроса
+
     public $request;
     public $status_id;
     public $import_id;
@@ -31,6 +39,8 @@ class GptParser implements ShouldQueue
         $this->import_id = $import_id;
         $this->active_api_key = $active_api_key;
         $this->position = $position;
+
+        $this->getSettings();
     }
 
     public function handle(): void
@@ -40,10 +50,10 @@ class GptParser implements ShouldQueue
 
         $gpt_parser_status = GptParserStatus::find($this->status_id);
 
+        $response = $this->getResponse();
         try {
             $gpt_parser_status?->updateStatus('working');
 
-            $response = $this->getResponse();
             $response = $this->checkResponse($response);
 
             /** Записали полученные данные */
@@ -72,7 +82,8 @@ class GptParser implements ShouldQueue
         ])->post('https://api.openai.com/v1/chat/completions', [
             'model' => 'gpt-3.5-turbo',
             'messages' =>  [["role" => "user", "content" => $this->request]],
-            'temperature' =>  0.7,
+            'temperature' => (int)$this->settings['temperature'],
+            'max_tokens' => (int)$this->settings['max_tokens'],
         ]);
 
         return $response;
@@ -84,7 +95,7 @@ class GptParser implements ShouldQueue
      */
     public function checkResponse($response)
     {
-        $attempts = 1; // Количество  запусков
+        $attempts_count = 1; // Количество  запусков
 
         if (isset($response['choices'][0]['finish_reason']) && $response['choices'][0]['finish_reason'] == 'stop') {
             $finish_reason = true;
@@ -93,15 +104,15 @@ class GptParser implements ShouldQueue
         }
 
         while (!$finish_reason) {
-            sleep(20);
+            sleep($this->parser_params['ATTEMPS_SLEEP_TIME']);
 
             $response = $this->getResponse();
 
-            if ($attempts > 10 || (isset($response['choices'][0]['finish_reason']) && $response['choices'][0]['finish_reason'] == 'stop')) {
+            if ($attempts_count > $this->parser_params['ATTEMPS_MAX'] || (isset($response['choices'][0]['finish_reason']) && $response['choices'][0]['finish_reason'] == 'stop')) {
                 $finish_reason = true;
             }
 
-            $attempts++;
+            $attempts_count++;
         }
         return $response;
     }
@@ -116,5 +127,27 @@ class GptParser implements ShouldQueue
             return true;
         else
             return false;
+    }
+
+    /** 
+     * Принимает настройки для запроса.
+     * Если у пользователя есть свои тогда применить пользовательские
+     */
+    protected function getSettings()
+    {
+        $default_settings = GptParserDefaultSetting::get();
+        $user_settings = Auth::user()->userSettings->keyBy('default_setting_id');
+
+        foreach ($default_settings as $default_setting) {
+            /**
+             * Если у пользователя есть данная настройка применить ее значение
+             * иначе оставить по умолчанию
+             */
+            if (isset($user_settings[$default_setting->id])) {
+                $this->settings[$default_setting->key] = $user_settings[$default_setting->id]->value;
+            } else {
+                $this->settings[$default_setting->key] = $default_setting->default;
+            }
+        }
     }
 }

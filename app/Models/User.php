@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'users_roles');
     }
 
+    public function userSettings()
+    {
+        return $this->hasMany(GptParserUserSetting::class);
+    }
+
     public function hasRole(...$roles)
     {
         foreach ($roles as $role) {

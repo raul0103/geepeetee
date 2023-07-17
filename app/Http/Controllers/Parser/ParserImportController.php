@@ -8,15 +8,17 @@ use App\Imports\GptParserImport;
 use App\Models\Import;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ParserImportController extends Controller
 {
+
     public function index()
     {
         return $this->checkActiveApiKeyByUser(function () {
-            return view('pages.parser.import', ['imports' => Import::byUser()]);
+            return view('pages.parser.import', [
+                'imports' => Import::byUser(),
+            ]);
         });
     }
 
@@ -29,7 +31,7 @@ class ParserImportController extends Controller
 
         return $this->checkActiveApiKeyByUser(function ($active_gpt_key) use ($request, $new_import) {
             Excel::import(new GptParserImport($active_gpt_key, $new_import->id), $request->file);
-            return view('pages.parser.import', ['message' => 'Парсер запущен', 'imports' => Import::byUser()]);
+            return $this->importRedirect('Парсер запущен');
         });
     }
 
@@ -37,7 +39,8 @@ class ParserImportController extends Controller
     {
         $import  = Import::findOrFail($request->import_id);
         $import->delete();
-        return view('pages.parser.import', ['message' => 'Импорт "' . $import->name . '" удален', 'imports' => Import::byUser()]);
+
+        return $this->importRedirect('Импорт "' . $import->name . '" удален');
     }
 
     protected function checkActiveApiKeyByUser($callback)
@@ -47,8 +50,17 @@ class ParserImportController extends Controller
         if ($active_gpt_key) return $callback($active_gpt_key);
         else return view('pages.parser.import', ['access_closed' => true, 'message' => 'У вас нет активного API ключа']);
     }
+
     protected function getActiveApiKeyByUser()
     {
         return Auth::user()->getActiveGptApiKey()?->key;
+    }
+
+    protected function importRedirect($message)
+    {
+        // Пересобрал через redirect так как если возвращать view то при обновлении страницы отправка формы повторится
+        return redirect()->route('parser.import', [
+            'message' => $message,
+        ]);
     }
 }
