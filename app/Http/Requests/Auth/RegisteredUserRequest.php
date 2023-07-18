@@ -22,6 +22,13 @@ class RegisteredUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        //Сохраняем в сессию для отображения на фронте если страница перезагрузится
+        session([
+            'name' => $this->name,
+            'login' => $this->login,
+            'email' => $this->email,
+        ]);
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'login' => ['required', 'string', 'max:255', 'unique:users'],

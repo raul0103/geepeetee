@@ -8,9 +8,9 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-
                 <div class="form-group">
-                    <input placeholder="Логин" class="form-control" type="text" name="login" required autofocus />
+                    <input placeholder="Логин" value="{{ session('login') }}" class="form-control" type="text" name="login"
+                        required autofocus />
                     <div class="form-error">
                         @error('login')
                             {{ $message }}

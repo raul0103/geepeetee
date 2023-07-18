@@ -45,11 +45,14 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        //Сохраняем логин в сессию для отображения на фронте если страница перезагрузится
+        session(['login' => $this->login]);
+
         if (!Auth::attempt($this->only('login', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'login' => trans('auth.failed'),
+                'login' => 'Введенные данные не верны',
             ]);
         }
 
