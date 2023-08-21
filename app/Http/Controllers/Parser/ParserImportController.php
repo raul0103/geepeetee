@@ -12,6 +12,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ParserImportController extends Controller
 {
+    public function __construct()
+    {
+        ini_set("memory_limit", "1000M");
+    }
 
     public function index()
     {
