@@ -14,6 +14,7 @@ class ParserImportController extends Controller
 {
     public function __construct()
     {
+        set_time_limit(0);
         ini_set("memory_limit", "1000M");
     }
 
